@@ -1,0 +1,201 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SuperMarketApp
+{
+    class Checkout
+    { 
+        
+
+
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Howdy Shopper");
+            Checkout new_Program = new Checkout();
+        }
+    
+
+        public Checkout()
+       
+
+        {   List<StockItem> stock = new List<StockItem>();
+            Dictionary<StockItem, int> basket = new Dictionary<StockItem, int>();
+            int total = 0; 
+            
+            
+            
+            StockItem a = new StockItem("A", 500);
+            StockItem b = new StockItem("B", 300);
+            StockItem c = new StockItem("C", 200);
+            StockItem d = new StockItem("D", 150);
+            a.setDeal(3, 1300);
+            b.setDeal(2, 400);
+            stock.Add(a);
+            stock.Add(b);
+            stock.Add(c);
+            stock.Add(d);
+
+
+
+
+
+
+            for (int i = 1; i <= 1000; i++) 
+            {
+                Console.WriteLine("What would you like to buy: A, B, C, D? If you are done enter x.");
+               
+                var item1 = Console.ReadLine().ToString();
+                
+            
+                if (item1=="x")
+                {break; }
+
+                else if (listnames(stock).Contains(item1))
+
+                {
+                    StockItem item2 = new StockItem();
+                    item2 = stock.Find(o => o.getName() == item1);
+                    
+                    addItem(basket , item2);
+                    
+
+
+                }
+                else
+                { Console.WriteLine("Please select a valid option from: A, B, C, D, or x."); }
+               
+
+              
+                
+            
+
+
+                
+            }
+
+            foreach(KeyValuePair<StockItem, int> m in basket)
+            {
+                if (m.Key.getDeal1() == 1)
+                {
+                    total = total + m.Key.getPrice()*m.Value;
+                    
+
+                }
+
+                else
+                {
+                    int value = (m.Value - m.Value % m.Key.getDeal1()) / m.Key.getDeal1();
+                    total = total + m.Key.getPrice() * (m.Value % m.Key.getDeal1()) +
+                      m.Key.getDeal2() * value;
+
+                }
+
+            }
+
+           
+            decimal dtotal = (decimal)total / 100;
+          
+            Console.WriteLine("Thank you, your total is £ {0}", dtotal.ToString());
+
+
+
+        }
+
+        private void addItem(Dictionary<StockItem, int> basket1, StockItem s)
+        {
+            if (basket1.ContainsKey(s))
+            { basket1[s]++; }
+            else
+            { basket1.Add(s, 1); }
+        }
+    
+        private List<String> listnames(List<StockItem> listtaker)
+        {
+            List<String> list2 = new List<String>();
+            foreach(StockItem m in listtaker)
+            { list2.Add(m.getName()); }
+
+            
+            return list2;
+        }
+
+
+       
+
+    }
+
+    class StockItem
+    {
+        private int price;
+        private string name;
+        private int deal1=1;
+        private int deal2;
+        private int quantity;
+        
+
+        public StockItem(string name1, int price1)
+
+        {
+
+            name= name1;
+            price= price1;
+          
+
+        
+
+
+        }
+
+        public StockItem()
+
+        {
+
+           
+
+
+
+
+
+        }
+
+        public int getPrice()
+        {
+            return price;
+        }
+
+        public string getName()
+        {
+            return name;
+        }
+
+        public void setDeal(int deal_1, int deal_2)
+
+        {
+            deal1 = deal_1;
+            deal2 = deal_2;
+
+        }
+
+        public int getDeal1()
+        { return deal1;
+        }
+
+        public int getDeal2()
+        { return deal2;
+        }
+
+        public int getQuantity()
+        {
+            return quantity;
+        }
+
+        public void setQuantity(int q)
+        {
+            quantity = q;
+        }
+    }
+}
